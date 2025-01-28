@@ -1,0 +1,15 @@
+<!-- /views/twenty.erb -->
+
+  <h1>1d20</h1>
+
+<% if @first_die_20 == 1 %>
+  <p style="color: red"><%= @outcome_20 %></p>
+<% elsif @first_die_20 == 20 %>
+  <p style="color: green"><%= @outcome_20 %></p>
+<% else %>
+  <p><%= @outcome_20 %></p>
+<% end %>
+
+
+</body>
+</html>

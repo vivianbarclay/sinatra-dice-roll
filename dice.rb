@@ -10,20 +10,8 @@ use(BetterErrors::Middleware)
 BetterErrors.application_root = __dir__
 BetterErrors::Middleware.allow_ip!('0.0.0.0/0.0.0.0')
 
-# get("/") do
-#    <<~HTML
-#     <h1>Dice Roll</h1>
-#     <ul>
-#       <li><a href="/dice/2/6">Roll two 6-sided dice</a></li>
-#       <li><a href="/dice/2/10">Roll two 10-sided dice</a></li>
-#       <li><a href="/dice/1/20">Roll one 20-sided die</a></li>
-#       <li><a href="/dice/5/4">Roll five 4-sided dice</a></li>
-#     </ul>
-#   HTML
-# end  
-
 get("/") do
-  erb(:elephant)
+  erb(:elephant, { :layout => :wrapper })
 end
 
 #simulates 2 6-sided dice
@@ -34,8 +22,7 @@ get("/dice/2/6") do
 	
   @outcome = "You rolled a #{first_die} and a #{second_die} for a total of #{sum}."
 	
-
-  erb(:two_six)
+  erb(:two_six, { :layout => :wrapper })
 end
 
 #simulates two 10-sided dice
@@ -44,17 +31,18 @@ get("/dice/2/10") do
   second_die_10 = rand(1..10)
   sum_10 = first_die_10 + second_die_10
 
-  outcome_10 = "You rolled a #{first_die_10} and a #{second_die_10} for a total of #{sum_10}."
+  @outcome_10 = "You rolled a #{first_die_10} and a #{second_die_10} for a total of #{sum_10}."
 
-  "<h2>2d10</h2
-    <p>#{outcome_10}</p>"
+  erb(:two_ten, { :layout => :wrapper })
 end    
 
 #simulates one 20-sided die
 get("/dice/1/20") do
-  first_die_20 = rand(1..20)
+  @first_die_20 = rand(1..20)
 
-  outcome_20 = "You rolled a #{first_die_20} for a total of #{first_die_20}."
+  @outcome_20 = "You rolled a #{@first_die_20}."
+  
+  erb(:one_twenty, { :layout => :wrapper })
 end
 
 #simulates 5 4-sided die
@@ -66,5 +54,20 @@ get("/dice/5/4") do
   fifth_die_4 = rand(1..4)
   sum_4 = first_die_4 + second_die_4 +third_die_4 +fourth_die_4 +fifth_die_4
   
-  outcome_4 = "You rolled a #{first_die_4}, #{second_die_4}, #{third_die_4}, #{fourth_die_4}, and a #{fifth_die_4} for a total of #{sum_4}."
+  @outcome_4 = "You rolled a #{first_die_4}, #{second_die_4}, #{third_die_4}, #{fourth_die_4}, and a #{fifth_die_4} for a total of #{sum_4}."
+ 
+  erb(:five_four, { :layout => :wrapper })
+end
+
+#100 roles of 6-sided die
+get("/dice/100/6") do
+  @rolls = []    # Create a blank array
+
+  100.times do    # 100 times...
+    die = rand(1..6)    # Generate a random number
+
+    @rolls.push(die)    # Add the random number to the array 
+  end
+
+  erb(:one_hundred_six)
 end
